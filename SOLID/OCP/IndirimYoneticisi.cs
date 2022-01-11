@@ -12,17 +12,25 @@ namespace OCP
         public string Ad { get; set; }
         public MusteriDurumu MusteriDurumu { get; set; }
         public int ToplamCalisilanYil { get; set; }
+
+        private const int maksimumCalismaYili = 5;
+        public decimal EkstraSadakatIndirimi
+        {
+            get { return ToplamCalisilanYil > maksimumCalismaYili ? (decimal)maksimumCalismaYili / 100 : (decimal)ToplamCalisilanYil / 100; }
+        }
     }
     public class IndirimYoneticisi
     {
         private const int maksimumCalismaYili = 5;
         public Musteri Musteri { get; set; }
-        public decimal IndirimUygula(decimal toplamFiyat, int toplamCalismaYili)
+        public decimal IndirimUygula(decimal toplamFiyat)
         {
            // decimal indirimliTutar = 0;
-            decimal ekstraYilIndirimi = Musteri.ToplamCalisilanYil > maksimumCalismaYili ? maksimumCalismaYili / 100 : Musteri.ToplamCalisilanYil / 100;
+           
 
-            return Musteri.MusteriDurumu.IndirimHesapla(toplamFiyat);
+            var durumaGoreIndirim = Musteri.MusteriDurumu.IndirimHesapla(toplamFiyat);
+            var calisilanYilagore = durumaGoreIndirim * (1 - Musteri.EkstraSadakatIndirimi);
+            return calisilanYilagore;
             //switch (Musteri.MusteriDurumu)
             //{
             //    case MusteriDurumu.KayitliDegil:

@@ -15,11 +15,12 @@ namespace OCP
             Console.WriteLine("Hello World!");
 
             Musteri musteri = new Musteri();
+            musteri.ToplamCalisilanYil = 5;
             musteri.MusteriDurumu = new GoldMusteri();
 
             IndirimYoneticisi indirimYoneticisi = new IndirimYoneticisi();
             indirimYoneticisi.Musteri = musteri;
-            var tutar = indirimYoneticisi.IndirimUygula(1000, 3);
+            var tutar = indirimYoneticisi.IndirimUygula(1000);
             Console.WriteLine(tutar);
         }
     }
